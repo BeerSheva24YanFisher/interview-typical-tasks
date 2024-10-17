@@ -1,34 +1,50 @@
 package telran.interview;
-//All methods should have complexity O[1]
+
+import java.util.EmptyStackException;
+import java.util.Stack;
+
 public class MyStackInt {
-   
-	public void push(int num) {
-        //TODO
-		//adds num into top of stack (last element)
-		throw new UnsupportedOperationException();
-	}
-	public int pop() {
-        //TODO
-		//removes element from top of stack (last element)
-		//returns being removed number
-		//throws exception if the stack is empty
-		throw new UnsupportedOperationException();
-	}
-	public int peek() {
-        //TODO
-		//returns last number
-		//throws exception if the stack is empty
-		throw new UnsupportedOperationException();
-	}
-	public boolean isEmpty() {
-        //TODO
-		//returns true if the stack is empty, otherwise false
-		throw new UnsupportedOperationException();
-	}
-	public int getMaxElement() {
-        //TODO
-		//returns the max number from the stack
-		//throws exception if the stack is empty
-		throw new UnsupportedOperationException();
-	}
+    private Stack<Integer> stack;
+    private Stack<Integer> maxStack;
+
+    public MyStackInt() {
+        stack = new Stack<>();
+        maxStack = new Stack<>();
+    }
+
+    public void push(int num) {
+        stack.push(num);
+        if (maxStack.isEmpty() || num >= maxStack.peek()) {
+            maxStack.push(num);
+        }
+    }
+
+    public int pop() {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        int num = stack.pop();
+        if (num == maxStack.peek()) {
+            maxStack.pop();
+        }
+        return num;
+    }
+
+    public int peek() {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return stack.peek();
+    }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+
+    public int getMaxElement() {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return maxStack.peek();
+    }
 }

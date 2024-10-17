@@ -1,16 +1,30 @@
 package telran.interview;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 public class AutoCompletion {
- //TODO
+	HashSet<String> words;
+
+	public AutoCompletion() {
+        this.words = new HashSet<>();
+    }
+
 	public boolean addWord(String word) {
-        //TODO
-		//adds new word into auto-completion variants
-		//returns true if added, false otherwise (if a given word already exists)
-		throw new UnsupportedOperationException();
+		return word != null && !word.isEmpty() ? words.add(word) : false;
 	}
-	public String [] getVariants(String prefix) {
-        //TODO
-		//returns all words beginning with a given prefix
-		//Complexity of finding the variants is O[logN]
-		throw new UnsupportedOperationException();
+
+	public String[] getVariants(String prefix) {
+		List<String> res = new ArrayList<>();
+		if (prefix != null) {
+			for (String word : words) {
+				if (word.toLowerCase().startsWith(prefix.toLowerCase())) {
+					res.add(word);
+				}
+			}
+			res.sort(String.CASE_INSENSITIVE_ORDER);
+		}
+		return res.toArray(String[]::new);
 	}
 }
