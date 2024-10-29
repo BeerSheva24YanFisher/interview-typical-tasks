@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
 
 public class InterviewTasks {
     /**
@@ -40,21 +40,16 @@ public class InterviewTasks {
 
 
     public static List<DateRole> assignRoleDates(List<DateRole> rolesHistory, List<LocalDate> dates) {
-        Map<LocalDate, String> roleMap = new HashMap<>();
-        for (DateRole role : rolesHistory) {
-            roleMap.put(role.date(), role.role());
-        }
+        TreeMap<LocalDate, String> roleMap = new TreeMap<>();
+        rolesHistory.forEach(role->roleMap.put(role.date(), role.role()));
 
         return dates.stream()
-            .map(date -> {
-                String lastKnownRole = roleMap.entrySet().stream()
-                    .filter(entry -> !entry.getKey().isAfter(date))
-                    .map(Map.Entry::getValue)
-                    .reduce((first, second) -> second)
-                    .orElse(null);
-                return new DateRole(date, lastKnownRole);
-            })
-            .collect(Collectors.toList());
+        .map(date -> {
+            LocalDate closestDate = roleMap.floorKey(date);
+            String role = closestDate != null ? roleMap.get(closestDate) : null;
+            return new DateRole(date, role);
+        })
+        .toList();
     }
 
     public static boolean isAnagram(String word, String anagram) {
