@@ -1,21 +1,16 @@
 package telran.interview;
 
 import java.util.EmptyStackException;
-import java.util.Stack;
+import java.util.LinkedList;
 
 public class MyStackInt {
-    private Stack<Integer> stack;
-    private Stack<Integer> maxStack;
-
-    public MyStackInt() {
-        stack = new Stack<>();
-        maxStack = new Stack<>();
-    }
+    private LinkedList<Integer> stack = new LinkedList<>();
+    private LinkedList<Integer> maxStack = new LinkedList<>();
 
     public void push(int num) {
-        stack.push(num);
-        if (maxStack.isEmpty() || num >= maxStack.peek()) {
-            maxStack.push(num);
+        stack.addFirst(num);
+        if (maxStack.isEmpty() || num >= maxStack.getFirst()) {
+            maxStack.addFirst(num);
         }
     }
 
@@ -23,9 +18,9 @@ public class MyStackInt {
         if (isEmpty()) {
             throw new EmptyStackException();
         }
-        int num = stack.pop();
-        if (num == maxStack.peek()) {
-            maxStack.pop();
+        int num = stack.removeFirst();
+        if (num == maxStack.getFirst()) {
+            maxStack.removeFirst();
         }
         return num;
     }
@@ -34,7 +29,7 @@ public class MyStackInt {
         if (isEmpty()) {
             throw new EmptyStackException();
         }
-        return stack.peek();
+        return stack.getFirst();
     }
 
     public boolean isEmpty() {
@@ -45,6 +40,6 @@ public class MyStackInt {
         if (isEmpty()) {
             throw new EmptyStackException();
         }
-        return maxStack.peek();
+        return maxStack.getFirst();
     }
 }
